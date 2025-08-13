@@ -2,6 +2,7 @@ package io.sbatchdemo.Config;
 
 import io.sbatchdemo.DAO.BankTransaction;
 import io.sbatchdemo.Repositories.BankTransactionRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -22,6 +23,7 @@ import org.springframework.core.io.FileSystemResource;
 import java.text.SimpleDateFormat;
 
 @Configuration
+@Slf4j
 public class BatchBeansConfig {
 
     @Bean
@@ -44,6 +46,7 @@ public class BatchBeansConfig {
         return transaction -> {
             // Convert the String date to java.util.Date here if needed
             transaction.setTransactionDate(new SimpleDateFormat("dd/MM/yyyy-H:mm").parse(transaction.getStrTransactionDate()));
+            log.info("Processed item: {}", transaction);
             return transaction;
         };
     }

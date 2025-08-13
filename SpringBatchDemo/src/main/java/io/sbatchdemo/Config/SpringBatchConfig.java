@@ -2,6 +2,7 @@ package io.sbatchdemo.Config;
 
 import io.sbatchdemo.DAO.BankTransaction;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -18,6 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableBatchProcessing
 @RequiredArgsConstructor
+@Slf4j
 public class SpringBatchConfig {
 
     private final ItemReader<BankTransaction> bankTransactionItemReader;
@@ -26,6 +28,7 @@ public class SpringBatchConfig {
 
     @Bean
     public Job bankTransactionJob(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+        log.info("Creating Job: bankTransactionJob");
         return new JobBuilder("bankTransactionJob", jobRepository)
                 .start(bankTransactionStep(jobRepository, transactionManager))
                 .build();
