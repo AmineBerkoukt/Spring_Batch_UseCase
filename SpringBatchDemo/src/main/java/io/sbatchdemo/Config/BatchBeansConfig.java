@@ -51,15 +51,19 @@ public class BatchBeansConfig {
         };
     }
 
+    /*
     @Bean
     public ItemWriter<BankTransaction> bankTransactionItemWriter(BankTransactionRepository repository) {
         return items -> repository.saveAll(items);
     }
 
-    /*
+     */
+
+
     @Bean
     public FlatFileItemWriter<BankTransaction> bankTransactionTxtWriter() {
         // Use FlatFileItemWriter to write output to a .txt file
+        log.info("WRITING INTO TEXT FILE !");
         return new FlatFileItemWriterBuilder<BankTransaction>()
                 .name("bankTransactionTxtWriter")
                 .resource(new FileSystemResource("output/transactions_output.txt")) // output path
@@ -75,6 +79,6 @@ public class BatchBeansConfig {
                 }})
                 .build();
     }
-     */
+
 
 }
