@@ -12,9 +12,13 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableBatchProcessing
@@ -46,4 +50,29 @@ public class SpringBatchConfig {
                 .build();
     }
 
+
+
+    /*
+    // Code for Composite Item Processors :
+
+    @Bean
+    public ItemProcessor<BankTransaction,BankTransaction> compositeProcessor() {
+        List<ItemProcessor<BankTransaction, BankTransaction>> itemProcessors = new ArrayList<>();
+        itemProcessors.add(bankTransactionItemProcessor);
+        // Add the other processors ...
+        CompositeItemProcessor<BankTransaction, BankTransaction> compositeItemProcessor = new CompositeItemProcessor<>();
+        compositeItemProcessor.setDelegates(itemProcessors); // tells the composite processor which processors to execute and in what order.
+        return compositeItemProcessor;
+    }
+
+    @Bean
+    public Step bankTransactionStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+        return new StepBuilder("bankTransactionStep", jobRepository)
+                .<BankTransaction, BankTransaction>chunk(10, transactionManager)
+                .reader(bankTransactionItemReader)
+                .processor(compositeItemProcessor())
+                .writer(bankTransactionItemWriter)
+                .build();
+    }
+     */
 }
